@@ -125,10 +125,6 @@ Proiectul folosește licența MIT.
 
 ---
 
-Dacă vrei, pot adăuga instrucțiuni specifice pentru rulare pe Windows (IIS/Valet/WSL) sau pași de deploy. Spune-mi ce preferi.
-
----
-
 ## Instrucțiuni specifice Windows
 
 - PowerShell: folosește comenzile de mai sus (ex. `copy .env.example .env`). Rulează PowerShell ca Administrator dacă întâmpini probleme cu permisiuni.
