@@ -1,70 +1,231 @@
 
 # tasks_tracker
 
+Aplicație simplă pentru gestionarea proiectelor și task-urilor, construită cu Laravel.
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+**Scop:** demo/temă pentru gestionare task-uri pe proiecte. Conține modele pentru `Project`, `Task` și autentificare utilizator.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Conținut rapid:**
+- Cod backend: Laravel (PHP)
+- Frontend: JS + build cu `npm`
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Cerințe (Prerequisites)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP 8.0+ (recomandat 8.1+)
+- Composer
+- Node.js 16+ și `npm` sau `yarn`
+- MySQL / MariaDB (sau altă bază de date suportată de Laravel)
+- extensia PHP `pdo_mysql`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Instalare locală (pași rapizi)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clonează repo și intră în folderele proiectului (dacă nu e deja clonat):
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+git clone <repo-url>
+cd task-tracker-main
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Instalează dependențele PHP:
 
-## Laravel Sponsors
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. Creează fișierul de mediu și generează cheia aplicației:
 
-### Premium Partners
+Pe Linux/macOS:
+```bash
+cp .env.example .env
+```
+Pe Windows (PowerShell):
+```powershell
+copy .env.example .env
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```bash
+php artisan key:generate
+```
 
-## Contributing
+4. Configurează conexiunea la baza de date în fișierul `.env` (variabile `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. Rulează migrațiile și, opțional, seed-urile:
 
-## Code of Conduct
+```bash
+php artisan migrate
+# sau, pentru migrări + seed
+php artisan migrate --seed
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. Instalează dependențele frontend și construiește activele:
 
-## Security Vulnerabilities
+```bash
+npm install
+npm run dev   # sau `npm run build` pentru prod
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+7. Pornește serverul de dezvoltare:
 
-## License
+```bash
+php artisan serve --host=127.0.0.1 --port=8000
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Accesează: http://127.0.0.1:8000
+
+---
+
+## Comenzi utile
+
+- Rulează testele PHP:
+
+```bash
+./vendor/bin/phpunit
+# sau
+php artisan test
+```
+
+- Link către storage (dacă folosești upload de fișiere):
+
+```bash
+php artisan storage:link
+```
+
+- Curăță cache config/route/view:
+
+```bash
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+```
+
+---
+
+## Structură importantă
+
+- Codul aplicației se găsește în folderul `tasks_tracker/app`.
+- Migrațiile în `database/migrations`.
+- Seed-urile în `database/seeders`.
+
+---
+
+## Probleme frecvente
+
+- Eroare de conexiune la DB: verifică `DB_*` în fișierul `.env`.
+- Permisiuni director `storage`/`bootstrap/cache`: pe Linux setează `storage` și `bootstrap/cache` writeable.
+
+---
+
+## Licență
+
+Proiectul folosește licența MIT.
+
+---
+
+Dacă vrei, pot adăuga instrucțiuni specifice pentru rulare pe Windows (IIS/Valet/WSL) sau pași de deploy. Spune-mi ce preferi.
+
+---
+
+## Instrucțiuni specifice Windows
+
+- PowerShell: folosește comenzile de mai sus (ex. `copy .env.example .env`). Rulează PowerShell ca Administrator dacă întâmpini probleme cu permisiuni.
+- Dacă folosești WSL (Windows Subsystem for Linux), rulează pașii în mediul WSL pentru compatibilitate mai bună cu toolchain Unix.
+- Start MySQL pe Windows (ex. dacă ai instalat MySQL ca serviciu):
+
+```powershell
+# Pornește serviciul MySQL
+Start-Service MySQL
+# Sau pentru MariaDB
+Start-Service MariaDB
+```
+
+---
+
+## Exemplu minim `.env` (fără secrete)
+
+Completează valorile cu datele tale locale:
+
+```
+APP_NAME=TaskTracker
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://127.0.0.1:8000
+
+LOG_CHANNEL=stack
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=tasks_db
+DB_USERNAME=root
+DB_PASSWORD=secret
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+```
+
+După copiere, rulează `php artisan key:generate` pentru a popula `APP_KEY`.
+
+---
+
+## Seed demo user (opțional)
+
+Dacă seed-urile includ un utilizator demo, poți popula baza astfel:
+
+```bash
+php artisan migrate --seed
+# sau, doar seed (după migrare)
+php artisan db:seed
+```
+
+Verifică `database/seeders/DatabaseSeeder.php` pentru datele create (ex. user admin, proiecte demo).
+
+---
+
+## Sugestii `composer` scripts (opțional)
+
+Poți adăuga în `composer.json` sub `scripts` un shortcut pentru setup local:
+
+```json
+"scripts": {
+	"post-install-cmd": [
+		"@php artisan key:generate"
+	],
+	"setup": [
+		"@php artisan migrate --seed",
+		"@npm install",
+		"@npm run dev"
+	]
+}
+```
+
+Notă: modificarea `composer.json` este opțională; README oferă comenzile manuale dacă nu vrei schimbări în fișiere.
+
+---
+
+## Deploy scurt (prod)
+
+Pași generali pentru producție:
+
+1. Setează `APP_ENV=production` și `APP_DEBUG=false` în `.env`.
+2. Instalează dependențe pe server (composer & npm), rulează `npm run build`.
+3. Rulează migrațiile: `php artisan migrate --force`.
+4. Setează permisiuni corecte pentru `storage` și `bootstrap/cache`.
+5. Configurează un server web (Nginx/Apache) pentru a servi `public/` și rulează un process manager (Supervisor) pentru job queue, dacă folosești coadă.
+
+---
+
+## Contact / Ajutor
+
+Dacă ai nevoie, pot:
+- adăuga un exemplu de `.env` specific pentru Windows/WSL,
+- edita `composer.json` pentru scripturi automate,
+- crea un `Makefile` sau script PowerShell pentru setup rapid.
+
+Spune-mi ce vrei să includ mai exact și continui imediat.
